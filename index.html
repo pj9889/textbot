@@ -50,8 +50,8 @@
 </div>
 
 <script>
-    // এখানে আপনার OpenRouter API Key বসিয়ে দিন
-    const HARDCODED_API_KEY = "YOUR_OPENROUTER_API_KEY_HERE"; 
+    // আপনার OpenRouter API Key-টি নিচে "sk-or-v1-..." এর জায়গায় নিখুঁতভাবে বসান
+    const HARDCODED_API_KEY = "sk-or-v1-YOUR_ACTUAL_OPENROUTER_API_KEY_HERE"; 
 
     async function processText() {
         const inputText = document.getElementById('inputText').value.trim();
@@ -61,6 +61,12 @@
 
         statusMsg.className = 'status-msg';
         statusMsg.innerText = '';
+
+        if (!HARDCODED_API_KEY || HARDCODED_API_KEY.includes("YOUR_ACTUAL_OPENROUTER_API_KEY_HERE")) {
+            statusMsg.className = 'status-msg error';
+            statusMsg.innerText = 'অনুগ্রহ করে কোডের HARDCODED_API_KEY তে আপনার সঠিক OpenRouter API Key বসান!';
+            return;
+        }
 
         if (!inputText) {
             statusMsg.className = 'status-msg error';
@@ -76,12 +82,10 @@
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${HARDCODED_API_KEY}`,
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": window.location.origin,
-                    "X-Title": "5 Variant Generator"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    model: "meta-llama/llama-3.1-8b-instruct:free", // Paid/Free পছন্দমতো OpenRouter মডেল আইডি ব্যবহার করতে পারেন
+                    model: "meta-llama/llama-3.1-8b-instruct:free",
                     messages: [
                         {
                             role: "system",
